@@ -85,12 +85,18 @@ func InitTaskChan(ch <-chan func(upp interfaces.Upp) error) module {
 	}
 }
 
+// sync functions
+// 添加 同步执行函数
 func InitFn(fns ...func(interfaces.Upp)) module {
 	return func(u *upp) {
-		if u.initFns == nil {
-			u.initFns = make([]func(interfaces.Upp), 0)
-		}
+		u.initFns._sync = append(u.initFns._sync, fns...)
+	}
+}
 
-		u.initFns = append(u.initFns, fns...)
+// async functions
+// 添加 异步执行函数
+func InitAsyncFn(fns ...func(interfaces.Upp)) module {
+	return func(u *upp) {
+		u.initFns._async = append(u.initFns._async, fns...)
 	}
 }

@@ -12,6 +12,15 @@ import (
 	"gorm.io/gorm"
 )
 
+const Banner = `
+  __  __        
+ / / / /__  ___ 
+/ /_/ / _ \/ _ \
+\____/ .__/ .__/
+    /_/  /_/    
+
+`
+
 type uppApi struct {
 	engine *api.App
 	config ApiConfig
@@ -25,8 +34,11 @@ type upp struct {
 	cache   cache.Cache
 	es      *elasticsearch.Client
 	api     *uppApi
-	initFns []func(interfaces.Upp)
-	taskCh  []<-chan func(interfaces.Upp) error
+	initFns struct {
+		_sync  []func(interfaces.Upp)
+		_async []func(interfaces.Upp)
+	}
+	taskCh []<-chan func(interfaces.Upp) error
 }
 
 func (u *upp) With(modules ...module) {
@@ -44,6 +56,13 @@ func New(configs ...Config) *upp {
 
 	app := &upp{
 		logger: upp_logger_pool,
+		initFns: struct {
+			_sync  []func(interfaces.Upp)
+			_async []func(interfaces.Upp)
+		}{
+			_sync:  make([]func(interfaces.Upp), 0),
+			_async: make([]func(interfaces.Upp), 0),
+		},
 	}
 
 	if config.Debug || env.Debug {
