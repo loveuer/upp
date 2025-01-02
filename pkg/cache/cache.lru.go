@@ -134,6 +134,11 @@ func (l *_lru) Del(ctx context.Context, keys ...string) error {
 	return nil
 }
 
+func (l *_lru) Close() error {
+	l.client = nil
+	return nil
+}
+
 func newLRUCache() (Cache, error) {
 	client := expirable.NewLRU[string, *_lru_value](1024*1024, nil, 0)
 

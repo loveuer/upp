@@ -10,6 +10,10 @@ import (
 	"gorm.io/gorm"
 )
 
+func (u *upp) Debug() bool {
+	return u.debug
+}
+
 func (u *upp) UseCtx() context.Context {
 	return u.ctx
 }
@@ -27,7 +31,7 @@ func (u *upp) UseDB(ctx ...context.Context) *gorm.DB {
 		Context: c,
 	})
 
-	if u.debug {
+	if u.Debug() {
 		tx = tx.Debug()
 	}
 

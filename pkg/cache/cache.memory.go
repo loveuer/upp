@@ -103,3 +103,9 @@ func (m *_mem) Del(ctx context.Context, keys ...string) error {
 	m.client.Delete(keys...)
 	return nil
 }
+
+func (m *_mem) Close() error {
+	m.client = nil
+
+	return nil
+}

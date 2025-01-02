@@ -9,6 +9,7 @@ import (
 )
 
 type Upp interface {
+	Debug() bool
 	UseCtx() context.Context
 	UseDB(ctx ...context.Context) *gorm.DB
 	UseCache() cache.Cache

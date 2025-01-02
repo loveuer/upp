@@ -104,3 +104,7 @@ func (r *_redis) SetEx(ctx context.Context, key string, value any, duration time
 func (r *_redis) Del(ctx context.Context, keys ...string) error {
 	return r.client.Del(ctx, keys...).Err()
 }
+
+func (r *_redis) Close() error {
+	return r.client.Close()
+}

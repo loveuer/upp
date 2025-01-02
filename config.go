@@ -3,5 +3,6 @@ package upp
 import "context"
 
 type Config struct {
-	Ctx context.Context
+	Ctx   context.Context
+	Debug bool
 }
