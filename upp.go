@@ -42,13 +42,13 @@ func New(configs ...Config) *upp {
 		config = configs[0]
 	}
 
-	if config.Debug || _flag.debug {
-		log.SetLogLevel(log.LogLevelDebug)
-	}
-
 	app := &upp{
 		logger: upp_logger_pool,
-		debug:  config.Debug,
+	}
+
+	if config.Debug || env.Debug {
+		log.SetLogLevel(log.LogLevelDebug)
+		app.debug = true
 	}
 
 	return app

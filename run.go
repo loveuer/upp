@@ -10,7 +10,7 @@ import (
 )
 
 func (u *upp) StartAPI(ctx context.Context) {
-	address := _flag.listen.http
+	address := env.ListenHttp
 	if address == "" {
 		address = u.api.config.Address
 	}
